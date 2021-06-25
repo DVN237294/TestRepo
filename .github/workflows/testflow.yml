@@ -9,7 +9,14 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
+  test-pr:
+    name: Testing Pr
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "hello pr"
+  
   test-dev:
+    if: ${{ github.event_name == 'push' }}
     name: Testing Dev
     runs-on: ubuntu-latest
     environment:
@@ -18,6 +25,7 @@ jobs:
       - run: echo "hello ${{ secrets.mysecret }}"
 
   test-prod:
+    if: ${{ github.event_name == 'push' }}
     name: Testing Prod
     runs-on: ubuntu-latest
     environment:
