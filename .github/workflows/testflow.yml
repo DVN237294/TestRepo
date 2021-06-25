@@ -26,7 +26,7 @@ jobs:
       - run: echo "hello ${{ secrets.mysecret }}"
 
   test-prod:
-    if: ${{ github.event_name == 'push' }}
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
     name: Testing Prod
     runs-on: ubuntu-latest
     environment:
