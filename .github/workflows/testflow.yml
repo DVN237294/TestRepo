@@ -1,0 +1,26 @@
+name: Test Environments
+
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  test-dev:
+    name: Testing Dev
+    runs-on: ubuntu-latest
+    environment:
+      name: dev
+    steps:
+      run: echo "hello ${{ secrets.mysecret }}"
+
+  test-prod:
+    name: Testing Prod
+    runs-on: ubuntu-latest
+    environment:
+      name: prod
+    steps:
+      run: echo "hello ${{ secrets.mysecret }}"
