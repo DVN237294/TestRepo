@@ -33,3 +33,27 @@ jobs:
       name: prod
     steps:
       - run: echo "hello ${{ secrets.mysecret }}"
+
+  get_pr_labels:
+    name: Get PR labels
+    if: ${{ github.event_name == 'push' }}
+    runs-on: ubuntu-latest
+    outputs:
+      labels: ${{ steps.get_pr_labels.outputs.labels }}
+    steps:
+      - uses: actions-ecosystem/action-get-merged-pull-request@v1.0.1
+        id: get_pr_labels
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+        
+ # do_da_notes:
+  #  name: Notes
+   # runs-on: ubuntu-latest
+    #needs: get_pr_labels
+    
+  print:
+    name: Print
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: ./test.sh ${{ secrets.GITHUB_TOKEN }}
