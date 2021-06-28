@@ -1,2 +1,5 @@
 #!/bin/bash
-echo "_${1}"
+partOne=$(echo "$1" | cut -c1-5)
+partTwo=$(echo "$1" | cut -c6-)
+echo "$partOne"
+echo "$partTwo"
