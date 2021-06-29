@@ -33,6 +33,22 @@ jobs:
       name: prod
     steps:
       - run: echo "hello ${{ secrets.mysecret }}"
+      
+  intermediate-job:
+    needs: test-prod
+    if: ${{ always() && !cancelled() }}
+    steps:
+      - run: echo "hello intermediate"
+      
+  final-job:
+    needs:
+     - test-prod
+     - intermediate-job
+    if: ${{ always() && !cancelled() && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') }}
+    environment:
+      name: prod
+    steps:
+      - run: echo "hello final job"
 
   get_pr_labels:
     name: Get PR labels
