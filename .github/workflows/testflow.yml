@@ -37,7 +37,7 @@ jobs:
   intermediate-job:
     needs: test-prod
     runs-on: ubuntu-latest
-    if: ${{ always() && !cancelled() }}
+    if: ${{ always() && success() }}
     steps:
       - run: echo "hello intermediate"
       
@@ -46,7 +46,7 @@ jobs:
     needs:
      - test-prod
      - intermediate-job
-    if: ${{ always() && !cancelled() && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') }}
+    if: ${{ always() && success() && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') }}
     environment:
       name: prod
     steps:
