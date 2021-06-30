@@ -47,10 +47,10 @@ jobs:
     if: ${{ always() }}
     steps:
       - run: |
-        echo ${{ always() }}
-        echo ${{ success() }}
-        echo ${{ cancelled() }}
-        echo ${{ failure() }}
+          echo ${{ always() }}
+          echo ${{ success() }}
+          echo ${{ cancelled() }}
+          echo ${{ failure() }}
       
   intermediate-job:
     needs: test-prod
