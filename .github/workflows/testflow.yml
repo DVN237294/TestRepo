@@ -26,17 +26,17 @@ jobs:
       - run: echo "hello ${{ secrets.mysecret }}"
 
   test-prod:
-    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+    if: ${{ github.event_name == 'push' }}
     name: Testing Prod
     runs-on: ubuntu-latest
-    environment:
-      name: prod
     steps:
       - run: echo "hello ${{ secrets.mysecret }}"
       
   always-after-prod:
     needs: test-prod
     runs-on: ubuntu-latest
+    environment:
+      name: prod
     if: ${{ always() }}
     steps:
       - run: echo "hello always-after-prod"
