@@ -46,13 +46,11 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ always() }}
     env:
-      always: ${{ always() }}
       success: ${{ success() }}
       cancelled: ${{ cancelled() }}
       failure: ${{ failure() }}
     steps:
       - run: |
-          echo $always
           echo $success
           echo $cancelled
           echo $failure
