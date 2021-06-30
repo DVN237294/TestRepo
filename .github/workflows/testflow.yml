@@ -41,20 +41,34 @@ jobs:
     steps:
       - run: echo "hello always-after-prod"
       
-  wouldthisrun-job:
+  always-job:
     needs: always-after-prod
     runs-on: ubuntu-latest
     if: ${{ always() }}
-    env:
-      success: ${{ success() }}
-      cancelled: ${{ cancelled() }}
-      failure: ${{ failure() }}
     steps:
-      - run: |
-          echo $success
-          echo $cancelled
-          echo $failure
+      - run: echo "yes"
+    
+  success-job:
+    needs: always-after-prod
+    runs-on: ubuntu-latest
+    if: ${{ success() }}
+    steps:
+      - run: echo "yes"
       
+  cancelled-job:
+    needs: always-after-prod
+    runs-on: ubuntu-latest
+    if: ${{ cancelled() }}
+    steps:
+      - run: echo "yes"
+      
+  failure-job:
+    needs: always-after-prod
+    runs-on: ubuntu-latest
+    if: ${{ failure() }}
+    steps:
+      - run: echo "yes"
+
   intermediate-job:
     needs: test-prod
     runs-on: ubuntu-latest
