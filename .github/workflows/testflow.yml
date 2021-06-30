@@ -34,6 +34,41 @@ jobs:
     steps:
       - run: echo "hello ${{ secrets.mysecret }}"
       
+  always-after-prod:
+    needs: test-prod
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    steps:
+      - run: echo "hello always-after-prod"
+      
+  always-job:
+    needs: always-after-prod
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    steps:
+      - run: echo "yes"
+    
+  success-job:
+    needs: always-after-prod
+    runs-on: ubuntu-latest
+    if: ${{ success() }}
+    steps:
+      - run: echo "yes"
+      
+  cancelled-job:
+    needs: always-after-prod
+    runs-on: ubuntu-latest
+    if: ${{ cancelled() }}
+    steps:
+      - run: echo "yes"
+      
+  failure-job:
+    needs: always-after-prod
+    runs-on: ubuntu-latest
+    if: ${{ failure() }}
+    steps:
+      - run: echo "yes"
+
   intermediate-job:
     needs: test-prod
     runs-on: ubuntu-latest
