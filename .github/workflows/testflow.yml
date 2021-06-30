@@ -44,9 +44,13 @@ jobs:
   wouldthisrun-job:
     needs: always-after-prod
     runs-on: ubuntu-latest
-    if: ${{ always() && success() }}
+    if: ${{ always() }}
     steps:
-      - run: echo "hello wouldthisrun"
+      - run: |
+        echo ${{ always() }}
+        echo ${{ success() }}
+        echo ${{ cancelled() }}
+        echo ${{ failure() }}
       
   intermediate-job:
     needs: test-prod
