@@ -101,6 +101,9 @@ jobs:
           
   some-job:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        env: ["dev", "uat", "prod"]
     steps:
       - name: Dump GitHub context
         env:
