@@ -110,7 +110,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: stuff
-        run: test.sh ${{ secrets.mysecret }}
+        run: ./test.sh ${{ secrets.mysecret }}
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
