@@ -101,10 +101,14 @@ jobs:
           
   some-job:
     runs-on: ubuntu-latest
+    environment:
+      name: ${{ matrix.env }}
     strategy:
       matrix:
         env: ["dev", "uat", "prod"]
     steps:
+      - name: stuff
+        run: echo "hello ${{ secrets.mysecret }}"
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
