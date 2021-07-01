@@ -145,3 +145,49 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: ./test.sh ${{ secrets.GITHUB_TOKEN }}
+     
+  publish_release_notes:
+    environment:
+      name: prod-approve
+    permissions:
+      contents: write
+      pull-requests: read
+    name: Publish release notes
+    runs-on: ubuntu-latest
+    needs: get_pr_labels    
+    if: ${{ always() && github.event_name == 'workflow_dispatch' }}
+    steps:
+      - run: echo "publishing notes"
+  
+  build_api_job:
+    name: Build/Test/Publish API Image
+    runs-on: ubuntu-latest
+    needs: 
+      - publish_release_notes
+      - get_pr_labels
+    if: ${{ always() && !failure() }}
+    steps:
+      - run: echo "building api"
+ 
+  deploy_dev_api_job:
+    name: Deploy API to Development
+    runs-on: ubuntu-latest
+    needs: build_api_job
+    environment:
+      name: dev
+    if: ${{ always() && !failure() && github.event_name != 'pull_request' }}
+    steps:
+      - run: echo "deploy to dev"
+      
+  deploy_prod_api_job:
+    name: Deploy API to Production
+    runs-on: ubuntu-latest
+    environment:
+      name: prod
+    needs: 
+      - build_api_job
+      - publish_release_notes
+      - get_pr_labels
+    if: ${{ always() && !failure() && github.event_name == 'workflow_dispatch' }}
+    steps:
+      - run: echo "deploy to prod"
