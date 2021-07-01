@@ -107,6 +107,8 @@ jobs:
       matrix:
         env: ["dev", "uat", "prod"]
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: stuff
         run: test.sh ${{ secrets.mysecret }}
       - name: Dump GitHub context
